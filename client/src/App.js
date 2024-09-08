@@ -1,6 +1,8 @@
 import logo from "./logo.svg";
 import "./App.css";
 import { useState } from "react";
+import CandidateList from "./Pages/CandidateListPage";
+import SkillsDistributionChart from "./Components/CandidateChart";
 
 function App() {
   const [candidate, setCandidate] = useState({
@@ -55,6 +57,8 @@ function App() {
         />
         <button type="submit">Add Candidate</button>
       </form>
+      <CandidateList />
+      <SkillsDistributionChart />
     </div>
   );
 }
