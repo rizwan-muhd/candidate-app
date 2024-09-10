@@ -5,8 +5,8 @@ const candidateSchema = new mongoose.Schema({
   skills: [String],
   experience: { type: Number },
   location: { type: String },
-  videoInterviewResult: String,
-  codingResult: Number,
+  videoInterviewResult: { type: String },
+  codingResult: { type: Number },
 });
 
 module.exports = mongoose.model("candidate", candidateSchema);

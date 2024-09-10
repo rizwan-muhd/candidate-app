@@ -10,10 +10,9 @@ mongoose.set("strictQuery", false);
 
 const connection = async () => {
   try {
-    // Use the MongoDB URL from the environment variables
     await mongoose.connect(MONGODB_URL, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
+      // useNewUrlParser: true,
+      // useUnifiedTopology: true,
     });
     console.log("Database connected successfully");
   } catch (error) {

@@ -1,19 +1,27 @@
 const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
 
 const userSchema = new mongoose.Schema({
   email: {
     type: String,
-    required: true, // Ensure that email is required
+    required: true,
   },
   password: {
     type: String,
-    required: true, // Ensure that password is required
+    required: true,
   },
   role: {
     type: String,
-    enum: ["admin", "user"], // Restrict role to 'admin' or 'user'
-    default: "user", // Set default role to 'user'
+    enum: ["admin", "user"],
+    default: "user",
   },
+});
+
+userSchema.pre("save", async function (next) {
+  if (this.isModified("password")) {
+    this.password = await bcrypt.hash(this.password, 10);
+  }
+  next();
 });
 
 const User = mongoose.model("User", userSchema);

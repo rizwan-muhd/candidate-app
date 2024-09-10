@@ -1,65 +1,37 @@
-import logo from "./logo.svg";
 import "./App.css";
-import { useState } from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import CandidateList from "./Pages/CandidateListPage";
 import SkillsDistributionChart from "./Components/CandidateChart";
+import ChatApp from "./Pages/CandidateFormpage";
+import Login from "./Pages/Login";
+import Register from "./Pages/Register";
 
 function App() {
-  const [candidate, setCandidate] = useState({
-    name: "",
-    skills: "",
-    experience: 0,
-    location: "",
-  });
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    // const response = await axios.post("/api/candidates", candidate);
-    // console.log("Candidate added:", response.data);
-  };
-
+  const token = localStorage.getItem("token");
   return (
-    <div className="App">
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          value={candidate.name}
-          onChange={(e) => setCandidate({ ...candidate, name: e.target.value })}
-          placeholder="Name"
-          required
+    <Router>
+      <Routes>
+        <Route
+          path="/"
+          element={token ? <Navigate to="/candidates" /> : <Login />}
         />
-        <input
-          type="text"
-          value={candidate.skills}
-          onChange={(e) =>
-            setCandidate({ ...candidate, skills: e.target.value })
-          }
-          placeholder="Skills"
-          required
-        />
-        <input
-          type="number"
-          value={candidate.experience}
-          onChange={(e) =>
-            setCandidate({ ...candidate, experience: e.target.value })
-          }
-          placeholder="Experience (Years)"
-          required
-        />
-        <input
-          type="text"
-          value={candidate.location}
-          onChange={(e) =>
-            setCandidate({ ...candidate, location: e.target.value })
-          }
-          placeholder="Location"
-          required
-        />
-        <button type="submit">Add Candidate</button>
-      </form>
-      <CandidateList />
-      <SkillsDistributionChart />
-    </div>
+        <Route path="/register" element={<Register />} />
+        {token ? (
+          <>
+            <Route path="/candidates" element={<CandidateList />} />
+            <Route path="/chart" element={<SkillsDistributionChart />} />
+            <Route path="/chat" element={<ChatApp />} />
+          </>
+        ) : (
+          <Route path="*" element={<Navigate to="/" />} />
+        )}
+      </Routes>
+    </Router>
   );
 }
 

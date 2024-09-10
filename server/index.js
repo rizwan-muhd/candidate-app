@@ -16,8 +16,10 @@ connection();
 app.use(bodyParser.urlencoded({ extended: false }));
 
 const candidate = require("./routes/Candidate");
+const user = require("./routes/User");
 
 app.use("/api/candidate", candidate);
+app.use("/api/user", user);
 
 app.use(bodyParser.json());
 
